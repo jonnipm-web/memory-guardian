@@ -1,0 +1,45 @@
+# Memory Guardian — example configuration
+# Copy to ~/.memory-guardian/config.yaml and edit as needed.
+# Run: memory-guardian config-init  to generate this file automatically.
+
+monitoring:
+  interval_seconds: 60          # How often to collect a snapshot during 'monitor'
+  snapshot_interval_seconds: 300
+  history_retention_days: 30    # Auto-purge records older than this
+
+policy:
+  readonly_mode: true            # NEVER change without thorough validation
+  dry_run: true                  # Show what would happen, take no action
+
+  # Processes you explicitly allow to be terminated (name must match exactly, lowercase).
+  # This list is EMPTY by default — nothing is ever terminated without your approval.
+  allowlist: []
+  #  - my_cleanup_script.exe
+  #  - old_worker.exe
+
+  # Wildcard patterns (regex) for the allowlist
+  allowlist_patterns: []
+  #  - "^temp_worker_"
+
+  # Additional protected names beyond the built-in list
+  protected_names: []
+  #  - my_critical_daemon.exe
+
+  protected_patterns: []
+
+  # Only consider action when available RAM drops below this threshold
+  max_memory_mb_before_action: 28000
+
+  # Minimum risk level before recommending any action (none/low/medium/high/critical)
+  min_risk_level_for_action: high
+
+alerts:
+  memory_warning_percent: 85
+  memory_critical_percent: 95
+  swap_warning_percent: 50
+  log_level: INFO
+
+output:
+  reports_dir: ~/.memory-guardian/reports
+  history_db: ~/.memory-guardian/history.db
+  log_file: ~/.memory-guardian/memory-guardian.log
